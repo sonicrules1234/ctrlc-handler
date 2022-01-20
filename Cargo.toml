@@ -1,7 +1,13 @@
 [package]
 name = "ctrlc-handler"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
+authors = ["Westly Ward <sonicrules1234@gmail.com>"]
+description = "Helper for using the ctrlc crate"
+license-file = "LICENSE"
+repository = "https://github.com/sonicrules1234/ctrlc-handler"
+readme = "README.md"
+homepage = "https://github.com/sonicrules1234/ctrlc-handler"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

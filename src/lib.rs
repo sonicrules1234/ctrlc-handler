@@ -1,6 +1,6 @@
 use std::sync::mpsc::{channel, Sender, Receiver, TryRecvError};
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub enum CtrlCResponse {
     Quit,
     Continue,
@@ -24,6 +24,7 @@ impl CtrlCHandler {
             tx: tx.clone(),
         }
     }
+    /// Tries to receive a response from the receiver channel.  Returns the result.
     pub fn respond(&self) -> CtrlCResponse {
         match self.rx.try_recv() {
             Ok(rx) => rx,
@@ -31,9 +32,11 @@ impl CtrlCHandler {
             Err(TryRecvError::Disconnected) => CtrlCResponse::Error, 
         }
     }
+    /// Makes it so should_continue returns false.
     pub fn send_quit(&self) {
         self.tx.clone().send(CtrlCResponse::Quit).unwrap();
     }
+    /// Checks if CTRL-C has beed pushed. Returns true if it hasn't.
     pub fn should_continue(&self) -> bool {
         if let CtrlCResponse::Continue = self.respond() {
             true
@@ -41,6 +44,7 @@ impl CtrlCHandler {
             false
         }
     }
+    /// Gets the channel sender so it can be used outside of the module.
     pub fn get_tx(&self) -> Sender<CtrlCResponse> {
         self.tx.clone()
     }
